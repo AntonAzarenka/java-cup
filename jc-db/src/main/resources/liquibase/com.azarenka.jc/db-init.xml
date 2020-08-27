@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                            http://www.liquibase.org/xml/ns/dbchangelog-ext
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="2020-08-28-01" author="Anton Azarenka">
+        <comment>Creating roles: jc_admin, jc_user</comment>
+        <sql>
+            DROP ROLE IF EXISTS jc_admin;
+            DROP ROLE IF EXISTS jc_user;
+            CREATE ROLE jc_admin WITH LOGIN ENCRYPTED PASSWORD 'jc_password';
+            CREATE ROLE jc_user WITH LOGIN ENCRYPTED PASSWORD 'jc_password';
+        </sql>
+    </changeSet>
+
+    <changeSet id="2020-08-28-02" author="Aliaksandr Shynkevich" runInTransaction="false">
+        <comment>Force disconnecting all users</comment>
+        <sql>
+            SELECT
+                pg_terminate_backend (pg_stat_activity.pid)
+            FROM
+                pg_stat_activity
+            WHERE
+                pg_stat_activity.datname = 'jc';
+        </sql>
+
+        <comment>Creating database: jc</comment>
+        <sql>
+            DROP DATABASE IF EXISTS postgres;
+            CREATE DATABASE postgres WITH OWNER jc_admin;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

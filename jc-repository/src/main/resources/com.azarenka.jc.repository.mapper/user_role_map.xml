@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azarenka.jc.repository.IUsersRoleMapRepository">
+
+    <resultMap type="com.azarenka.jc.domain.Role" id="role">
+        <id column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
+    </resultMap>
+
+
+    <insert id="saveRole">
+        INSERT INTO main.user_role_map (
+            user_id,
+            role_id
+        )
+        VALUES (
+            #{userId},
+            #{roleId}
+        )
+    </insert>
+
+    <select id="getIdByRole" resultType="String">
+        SELECT
+            id
+        FROM main.role
+        WHERE role.role = #{role}
+    </select>
+</mapper>

@@ -1,0 +1,126 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azarenka.jc.repository.IUserRepository">
+
+    <resultMap type="User" id="user">
+        <id column="id" property="id"/>
+        <result column="email" property="email"/>
+        <result column="enabled" property="enabled"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="activate_code" property="activateCode"/>
+        <result column="date_registration" property="registrationDate"/>
+        <result column="current_menu" property="currentMenu"/>
+        <collection property="roles" ofType="com.azarenka.jc.domain.Role" javaType="java.util.HashSet">
+            <result property="name" column="role"/>
+        </collection>
+    </resultMap>
+
+    <sql id="userColumns">
+        id,
+         email,
+         enabled,
+         name,
+         avatar,
+         password,
+         activate_code,
+         date_registration
+    </sql>
+
+    <sql id="basedColumns">
+        created_user,
+        updated_user,
+        created_date,
+        updated_date
+    </sql>
+
+    <insert id="save" parameterType="User">
+        insert into main.users (
+        <include refid="userColumns"/>,
+        <include refid="basedColumns"/>
+        )
+        values(
+        #{id},
+        #{email},
+        #{enabled},
+        #{name},
+        #{avatar},
+        #{password},
+        #{activateCode},
+        #{registrationDate},
+        #{createdUser},
+        #{updatedUser},
+        #{createdDate},
+        #{updatedDate}
+        )
+    </insert>
+
+    <update id="updateActivationStatus" parameterType="User">
+        UPDATE main.users
+        SET enabled       = 'true',
+            activate_code = 'ACTIVATED'
+        WHERE main.users.id = #{id}
+    </update>
+
+    <select id="getByEmail" resultMap="user">
+        SELECT u.id,
+               email,
+               name,
+               avatar,
+               activate_code,
+               password,
+               date_registration,
+               r.id,
+               r.role,
+               enabled
+        FROM main.users u
+                 JOIN main.user_role_map rm ON rm.user_id = u.id
+                 JOIN main.role r ON r.id = rm.role_id
+        WHERE u.email = #{email}
+    </select>
+
+    <select id="getByActivateCode" resultMap="user">
+        SELECT u.id,
+               email,
+               name,
+               avatar,
+               password,
+               activate_code,
+               date_registration,
+               r.id,
+               r.role,
+               enabled
+        FROM main.users u
+                 JOIN main.user_role_map rm ON rm.user_id = u.id
+                 JOIN main.role r ON r.id = rm.role_id
+        WHERE u.activate_code = #{code}
+    </select>
+
+    <select id="getAll" resultMap="user">
+        select u.id,
+               email,
+               name,
+               avatar,
+               password,
+               activate_code,
+               date_registration,
+               r.id,
+               r.role,
+               enabled
+        from main.users u
+                 JOIN main.user_role_map rm ON rm.user_id = u.id
+                 JOIN main.role r ON r.id = rm.role_id
+        where enabled = true
+    </select>
+
+    <delete id="remove" parameterType="string">
+        with u as (
+            delete from main.user_role_map
+                where user_id = #{id}
+        )
+        delete
+        from main.users
+        where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="2020-08-28-03" author="Anton Azarenka">
+        <comment>Crete tables: user, role, user_role_map</comment>
+
+        <createTable tableName="role" schemaName="main">
+            <column name="id" type="varchar(256)">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+
+            <column name="role" type="varchar(256)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="users" schemaName="main">
+            <column name="id" type="varchar(256)">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+
+            <column name="email" type="varchar(256)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="password" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(256)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+
+            <column name="avatar" type="varchar(256)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+
+            <column name="activate_code" type="varchar(50)">
+                <constraints nullable="true" unique="true"/>
+            </column>
+
+            <column name="date_registration" type="date" defaultValue="now()"/>
+
+            <column name="created_user" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="updated_user" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="created_date" type="date" defaultValue="now()"/>
+
+            <column name="updated_date" type="date" defaultValue="now()">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="user_role_map" schemaName="main">
+            <column name="user_id" type="varchar(256)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_user_role_id"
+                             referencedTableName="users"
+                             referencedColumnNames="id"
+                             referencedTableSchemaName="main"/>
+            </column>
+            <column name="role_id" type="varchar(256)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_role"
+                             referencedTableName="role"
+                             referencedColumnNames="id"
+                             referencedTableSchemaName="main"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

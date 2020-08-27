@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+
+    <changeSet id="2019-07-20-30" author="Anton Azarenka" runInTransaction="false">
+        <comment>add data in tables: role</comment>
+        <sql>
+            INSERT INTO main.role (id, role) VALUES
+            ('3e7e4373-2caa-4202-af8f-94f233a99027','ADMIN'),
+            ('93d45507-5bdf-41de-af4c-0643858008d9','USER')
+        </sql>
+    </changeSet>
+
+    <changeSet id="2019-07-20-40" author="Anton Azarenka" runInTransaction="false">
+        <comment>add data in tables: user</comment>
+        <sql>
+            INSERT INTO main.users
+            (id, email, password, enabled, name, avatar, activate_code, date_registration) VALUES
+            ('4993f33d-cd83-4b87-a4d4-57a11e65aa9b', 'Admin@mail.ru', 'admin', true, 'admin', '', 'active','2019-09-22')
+        </sql>
+    </changeSet>
+
+    <changeSet id="2019-07-21-00" author="Anton Azarenka" runInTransaction="false">
+        <comment>add data in tables: role map</comment>
+        <sql>
+            INSERT INTO main.user_role_map
+            (user_id, role_id) VALUES
+            ('4993f33d-cd83-4b87-a4d4-57a11e65aa9b', '3e7e4373-2caa-4202-af8f-94f233a99027')
+        </sql>
+    </changeSet>
+</databaseChangeLog>
