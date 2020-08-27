@@ -1,6 +1,5 @@
 package com.azarenka.jc.service.mail;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.ExceptionUtils;
 import org.slf4j.Logger;
@@ -38,7 +37,6 @@ public class Mail {
     private static final Logger LOGGER = LoggerFactory.getLogger(Mail.class);
     @Value("${mail.username}")
     private String username;
-
     @Autowired
     private JavaMailSender javaMailSender;
     @Resource
@@ -67,5 +65,4 @@ public class Mail {
             ExceptionUtils.handleThrowable(e);
         }
     }
-
 }

@@ -5,11 +5,9 @@ import com.azarenka.jc.domain.User;
 import com.azarenka.jc.domain.auth.JwtResponse;
 import com.azarenka.jc.domain.auth.LoginForm;
 import com.azarenka.jc.test.TestUtils;
-
-import org.junit.Test;
-
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import org.junit.Test;
 
 import java.util.Arrays;
 

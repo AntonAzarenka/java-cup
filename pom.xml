@@ -62,8 +62,6 @@
                 <configuration>
                     <configLocation>checkstyle/checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
-
-
                 </configuration>
                 <executions>
                     <execution>
