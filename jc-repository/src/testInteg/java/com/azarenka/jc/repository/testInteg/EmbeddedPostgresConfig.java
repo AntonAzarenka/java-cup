@@ -103,44 +103,4 @@ public class EmbeddedPostgresConfig {
         repository.setSqlSessionFactory(sqlSessionFactory(applicationContext).getObject());
         return repository;
     }
-    /*@Bean
-    public MapperFactoryBean<DayRepository> dayRepository(ApplicationContext applicationContext) throws Exception {
-        MapperFactoryBean<DayRepository> repository = new MapperFactoryBean<>();
-        repository.setMapperInterface(DayRepository.class);
-        repository.setSqlSessionFactory(sqlSessionFactory(applicationContext).getObject());
-        return repository;
-    }
-
-    @Bean
-    public MapperFactoryBean<FoodRepository> foodRepository(ApplicationContext applicationContext) throws Exception {
-        MapperFactoryBean<FoodRepository> repository = new MapperFactoryBean<>();
-        repository.setMapperInterface(FoodRepository.class);
-        repository.setSqlSessionFactory(sqlSessionFactory(applicationContext).getObject());
-        return repository;
-    }
-
-    @Bean
-    public MapperFactoryBean<MealRepository> mealRepository(ApplicationContext applicationContext) throws Exception {
-        MapperFactoryBean<MealRepository> repository = new MapperFactoryBean<>();
-        repository.setMapperInterface(MealRepository.class);
-        repository.setSqlSessionFactory(sqlSessionFactory(applicationContext).getObject());
-        return repository;
-    }
-
-    @Bean
-    public MapperFactoryBean<MenuRepository> menuRepository(ApplicationContext applicationContext) throws Exception {
-        MapperFactoryBean<MenuRepository> repository = new MapperFactoryBean<>();
-        repository.setMapperInterface(MenuRepository.class);
-        repository.setSqlSessionFactory(sqlSessionFactory(applicationContext).getObject());
-        return repository;
-    }
-
-
-    @Bean
-    public MapperFactoryBean<BookerRepository> bookerRepository(ApplicationContext applicationContext) throws Exception {
-        MapperFactoryBean<BookerRepository> repository = new MapperFactoryBean<>();
-        repository.setMapperInterface(BookerRepository.class);
-        repository.setSqlSessionFactory(sqlSessionFactory(applicationContext).getObject());
-        return repository;
-    }*/
 }

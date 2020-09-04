@@ -5,16 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-
-    <changeSet id="2019-07-20-30" author="Anton Azarenka" runInTransaction="false">
-        <comment>add data in tables: role</comment>
-        <sql>
-            INSERT INTO main.role (id, role) VALUES
-            ('3e7e4373-2caa-4202-af8f-94f233a99027','ADMIN'),
-            ('93d45507-5bdf-41de-af4c-0643858008d9','USER')
-        </sql>
-    </changeSet>
-
     <changeSet id="2019-07-20-40" author="Anton Azarenka" runInTransaction="false">
         <comment>add data in tables: user</comment>
         <sql>

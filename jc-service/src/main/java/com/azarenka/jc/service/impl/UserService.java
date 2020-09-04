@@ -62,8 +62,10 @@ public class UserService implements IUserService {
             String roleId = roleMapRepository.getIdByRole(Role.USER.name());
             roleMapRepository.saveRole(user.getId(), roleId);
             sendMessage(confirmUserCode, user.getEmail(), user.getActivateCode());
+            LOGGER.info("User {} has been created", user.getEmail());
         } catch (Exception e) {
-            LOGGER.info("Mail hasn't been send to {} {}", registrationUser.getUsername(), e.getMessage());
+            LOGGER.error("Mail hasn't been send to {}, {}", registrationUser.getUsername(), e.getMessage());
+            LOGGER.info("User {} hasn't been created", user.getEmail());
         }
     }
 
@@ -74,7 +76,14 @@ public class UserService implements IUserService {
 
     @Override
     public boolean activating(String code) {
-        return false;
+        LOGGER.info("activating....");
+        User user = userRepository.getByActivateCode(code);
+        if (null == user) {
+            return false;
+        }
+        userRepository.updateActivationStatus(user.getId());
+        LOGGER.info(String.format("User %s has been activated", user.getEmail()));
+        return true;
     }
 
     @Bean
