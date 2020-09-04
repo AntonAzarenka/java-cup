@@ -66,7 +66,8 @@ public class Config {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setConfigLocation(applicationContext.getResource("classpath:mybatis.xml"));
-        sessionFactory.setMapperLocations(applicationContext.getResources("classpath:com.azarenka.mapper/*.xml"));
+        sessionFactory.setMapperLocations(
+            applicationContext.getResources("classpath:com.azarenka.jc.repository.mapper/*.xml"));
         sessionFactory.setTypeAliasesPackage("com.azarenka.domain");
         sessionFactory.afterPropertiesSet();
         return sessionFactory;

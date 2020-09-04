@@ -50,7 +50,11 @@ public class UserService implements IUserService {
 
     @Override
     public void save(SignUpForm registrationUser) {
-        User user = buildUser(registrationUser);
+        User user = new User();
+        user.setId(KeyGenerator.generateUuid());
+        user.setEmail(registrationUser.getUsername());
+        user.setName(registrationUser.getName());
+        user.setActivateCode(KeyGenerator.generateUuid());
         try {
             LOGGER.info("Start creating user {}", registrationUser.getName());
             user.setPassword(encoder.encode(registrationUser.getPassword()));
@@ -78,26 +82,17 @@ public class UserService implements IUserService {
         return new BCryptPasswordEncoder();
     }
 
-    protected User buildUser(SignUpForm registrationUser) {
-        User user = new User();
-        user.setId(KeyGenerator.generateUuid());
-        user.setEmail(registrationUser.getUsername());
-        user.setName(registrationUser.getName());
-        user.setActivateCode(KeyGenerator.generateUuid());
-        return user;
-    }
-
     private void sendMessage(String uri, String login, String code) {
         SendMessage sendMessage = new SendMessage(login, MailType.REGISTER_CONFIRMATION,
-            buildMessageData(uri, login, code));
+            buildMessageData(uri, code));
         mail.sendMessage(sendMessage);
     }
 
-    private static Map<String, String> buildMessageData(String uri, String login, String code) {
+    private static Map<String, String> buildMessageData(String uri, String code) {
         Map<String, String> data = new HashMap<>();
         int endIndex = StringUtils.ordinalIndexOf(uri, "/", 3);
         data.put("uri", endIndex < 0 ? uri : uri.substring(0, endIndex));
-        data.put("link", String.format(uri + code));
+        data.put("link", uri + code);
         return data;
     }
 }
